@@ -11,7 +11,12 @@
                     <div class="panel-body">
                         @foreach ($threads as $thread)
                             <article>
-                                <h4><a href="{{ $thread->path() }}">{{ $thread->title }}</a></h4>
+                                <h4>
+                                    <a href="{{ $thread->creator->pathToProfile() }}">{{ $thread->creator->name }}</a>
+                                    posted
+                                    <a href="{{ $thread->path() }}">{{ $thread->title }}</a>
+                                    {{ $thread->created_at->diffForHumans() }}
+                                </h4>
                                 <div class="body">{{ $thread->body }}</div>
                             </article>
                             <hr>
