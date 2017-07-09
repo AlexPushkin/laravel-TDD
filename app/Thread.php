@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Thread extends Model
 {
+    protected $guarded = [];
+
     public function path(): string
     {
         return '/threads/' . $this->id;
@@ -21,5 +23,10 @@ class Thread extends Model
     public function creator(): HasOne
     {
         return $this->hasOne(User::class, 'id', 'user_id');
+    }
+
+    public function addReply(array $array)
+    {
+        $this->replies()->create($array);
     }
 }
