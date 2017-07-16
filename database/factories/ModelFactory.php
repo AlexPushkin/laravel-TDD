@@ -10,9 +10,10 @@
 | database. Just tell the factory how a default model should look.
 |
 */
+use App\Channel;
 use App\Reply;
-use App\User;
 use App\Thread;
+use App\User;
 use Faker\Generator;
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
@@ -29,22 +30,34 @@ $factory->define(User::class, function (Generator $faker) {
 
 $factory->define(Thread::class, function (Generator $faker) {
     return [
-        'user_id' => function () {
+        'user_id'    => function () {
             return factory(User::class)->create()->id;
         },
-        'title' => $faker->sentence,
-        'body'  => $faker->paragraph,
+        'channel_id' => function () {
+            return factory(Channel::class)->create()->id;
+        },
+        'title'      => $faker->sentence,
+        'body'       => $faker->paragraph,
     ];
 });
 
 $factory->define(Reply::class, function (Generator $faker) {
     return [
-        'user_id' => function () {
+        'user_id'   => function () {
             return factory(User::class)->create()->id;
         },
         'thread_id' => function () {
             return factory(Thread::class)->create()->id;
         },
-        'body'  => $faker->paragraph,
+        'body'      => $faker->paragraph,
+    ];
+});
+
+$factory->define(Channel::class, function (Generator $faker) {
+    $word = $faker->word;
+
+    return [
+        'name' => $word,
+        'slug' => $word,
     ];
 });

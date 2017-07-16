@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
@@ -12,7 +13,7 @@ class Thread extends Model
 
     public function path(): string
     {
-        return '/threads/' . $this->id;
+        return "/threads/{$this->channel->slug}/{$this->id}";
     }
 
     public function replies(): HasMany
@@ -23,6 +24,11 @@ class Thread extends Model
     public function creator(): HasOne
     {
         return $this->hasOne(User::class, 'id', 'user_id');
+    }
+
+    public function channel(): BelongsTo
+    {
+        return $this->belongsTo(Channel::class, 'channel_id', 'id');
     }
 
     public function addReply(array $array)
