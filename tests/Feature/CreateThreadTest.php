@@ -3,7 +3,6 @@
 namespace Tests\Feature;
 
 use App\Thread;
-use App\User;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
@@ -19,6 +18,16 @@ class CreateThreadTest extends TestCase
     {
         $this->expectException(AuthenticationException::class);
         $this->post('/threads');
+    }
+
+    /**
+     * @test
+     */
+    public function guest_cant_see_create_page()
+    {
+        $this->withExceptionHandling()
+            ->get('/threads/create')
+            ->assertRedirect('/login');
     }
 
     /**
