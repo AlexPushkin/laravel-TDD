@@ -14,6 +14,8 @@ class RepliesController extends Controller
 
     public function add(Channel $channel, Thread $thread)
     {
+        $this->validate(request(), ['body' => 'required']);
+
         $thread->addReply([
             'body'    => request('body'),
             'user_id' => auth()->id(),
