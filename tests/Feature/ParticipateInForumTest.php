@@ -5,7 +5,6 @@ namespace Tests\Feature;
 use App\Reply;
 use App\Thread;
 use App\User;
-use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
@@ -16,9 +15,9 @@ class ParticipateInForumTest extends TestCase
     /** @test */
     public function an_unauthenticated_user_cant_add_an_reply()
     {
-        $this->expectException(AuthenticationException::class);
-
-        $this->post('/threads/1/replies');
+        $this->withExceptionHandling()
+            ->post('/threads/php/1/replies')
+            ->assertRedirect('/login');
     }
 
     /** @test */
