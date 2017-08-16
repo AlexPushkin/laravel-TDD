@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Reply;
 use App\Thread;
+use App\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
@@ -39,6 +40,19 @@ class ReadThreadTest extends TestCase
         $reply = create(Reply::class, ['thread_id' => $this->_thread->id]);
 
         $this->get($this->_thread->path())->assertSee($reply->body);
+    }
 
+    /** @test */
+    public function a_user_cant_filter_threads_by_username()
+    {
+        $this->signIn(create(User::class, ['name' => 'AlexPushkin']));
+
+        $threadByPushkin = create(Thread::class, ['user_id' => auth()->id()]);
+
+        $threadNotByPushkin = create(Thread::class);
+
+        $this->get('/threads?by=AlexPushkin')
+            ->assertSee($threadByPushkin->title)
+            ->assertDontSee($threadNotByPushkin->title);
     }
 }
