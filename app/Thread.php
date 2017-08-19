@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Filters\ThreadFilters;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -10,6 +11,11 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 class Thread extends Model
 {
     protected $guarded = [];
+
+    public static function scopeFilter($scope, ThreadFilters $filters)
+    {
+        return $filters->apply($scope);
+    }
 
     public function path(): string
     {
