@@ -33,7 +33,7 @@ class Thread extends Model
 
     public function replies(): HasMany
     {
-        return $this->hasMany(Reply::class, 'thread_id', 'id');
+        return $this->hasMany(Reply::class, 'thread_id', 'id')->withCount('favorites');
     }
 
     public function creator(): HasOne
