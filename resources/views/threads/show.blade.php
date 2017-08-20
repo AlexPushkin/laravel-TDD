@@ -5,7 +5,8 @@
 @section('content')
     <div class="container">
         <div class="row">
-            <div class="col-md-8 col-md-offset-2">
+            <div class="col-md-8">
+
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h4>
@@ -13,36 +14,47 @@
                             posted:
                             {{ $thread->title }}
                             {{ $thread->created_at->diffForHumans() }}
-                        </h4></div>
+                        </h4>
+                    </div>
 
                     <div class="panel-body">
                         {{ $thread->body }}
                     </div>
                 </div>
-            </div>
-        </div>
 
-        <div class="row">
-            <div class="col-md-8 col-md-offset-2">
-                @foreach($thread->replies as $reply)
+                @foreach($replies as $reply)
                     @include('threads.parts.reply')
                 @endforeach
-            </div>
-        </div>
 
-        @if (auth()->check())
-            <div class="row">
-                <div class="col-md-8 col-md-offset-2">
+                {{ $replies->links() }}
+
+                @if (auth()->check())
                     <form method="POST" action="{{ $thread->path() . '/replies' }}">
                         {{ csrf_field() }}
                         <div class="form-group">
-                            <textarea name="body" id="body" rows="5" class="form-control" placeholder="Have something to say?"></textarea>
+                            <textarea name="body" id="body" rows="5" class="form-control"
+                                      placeholder="Have something to say?"></textarea>
                         </div>
                         <button type="submit" class="btn btn-default">submit</button>
 
                     </form>
+                @endif
+            </div>
+
+            <div class="col-md-4">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4>
+                            This thread was published {{ $thread->created_at->diffForHumans() }} by
+                            <a href="#">{{ $thread->creator->name }}</a>,
+                            and currently
+                            has {{ $thread->replies_count }} {{ str_plural('comment', $thread->replies_count) }}.
+                        </h4>
+                    </div>
                 </div>
             </div>
-        @endif
+        </div>
+
+
     </div>
 @endsection
