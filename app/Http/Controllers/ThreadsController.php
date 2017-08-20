@@ -27,7 +27,13 @@ class ThreadsController extends Controller
             $threads->where('channel_id', $channel->id);
         }
 
-        return view('threads.index', ['threads' => $threads->get()]);
+        $threads = $threads->get();
+
+        if (request()->wantsJson()) {
+            return $threads;
+        }
+
+        return view('threads.index', ['threads' => $threads]);
     }
 
     /**
