@@ -9,6 +9,8 @@ class Reply extends Model
 {
     protected $guarded = [];
 
+    protected $with = ['owner', 'favorites'];
+
     public function owner(): HasOne
     {
         return $this->hasOne(User::class, 'id', 'user_id');
@@ -29,6 +31,11 @@ class Reply extends Model
 
     public function isFavorited(): bool
     {
-        return $this->favorites()->where('user_id', auth()->id())->exists();
+        return (bool)$this->favorites->where('user_id', auth()->id())->count();
+    }
+
+    public function getFavoritesCount(): int
+    {
+        return count($this->favorites);
     }
 }

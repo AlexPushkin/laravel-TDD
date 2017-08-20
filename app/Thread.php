@@ -12,6 +12,13 @@ class Thread extends Model
 {
     protected $guarded = [];
 
+    protected $with = ['creator', 'channel'];
+
+    public static function scopeFilter($scope, ThreadFilters $filters)
+    {
+        return $filters->apply($scope);
+    }
+
     protected static function boot()
     {
         parent::boot();
@@ -21,11 +28,6 @@ class Thread extends Model
         });
     }
 
-    public static function scopeFilter($scope, ThreadFilters $filters)
-    {
-        return $filters->apply($scope);
-    }
-
     public function path(): string
     {
         return "/threads/{$this->channel->slug}/{$this->id}";
@@ -33,9 +35,7 @@ class Thread extends Model
 
     public function replies(): HasMany
     {
-        return $this->hasMany(Reply::class, 'thread_id', 'id')
-            ->withCount('favorites')
-            ->with(['owner', 'favorites']);
+        return $this->hasMany(Reply::class, 'thread_id', 'id');
     }
 
     public function creator(): HasOne
