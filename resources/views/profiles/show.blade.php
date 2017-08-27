@@ -1,7 +1,7 @@
 @extends('layouts.app')
 <?php
 /**
- * @var \App\User $profileUser
+ * @var \App\User     $profileUser
  * @var \App\Thread[] $threads
  */
 ?>
@@ -16,23 +16,12 @@
                     </h1>
                 </div>
 
-                @foreach($threads as $thread)
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <div class="level">
-                         <span class="flex">
-                             <a href="{{ $thread->path() }}">{{ $thread->title }}</a>
-                        </span>
-                                <span>{{ $thread->created_at->diffForHumans() }}</span>
-                            </div>
-                        </div>
-
-                        <div class="panel-body">
-                            {{ $thread->body }}
-                        </div>
-                    </div>
+                @foreach($activities as $period => $group)
+                    <h3 class="page-header">{{ $period }}</h3>
+                    @foreach($group as $activity)
+                        @include("profiles.activities.{$activity->type}")
+                    @endforeach
                 @endforeach
-                {{ $threads->links() }}
             </div>
         </div>
     </div>

@@ -40,4 +40,9 @@ class Reply extends Model
     {
         return count($this->favorites);
     }
+
+    public function thread()
+    {
+        return $this->belongsTo(Thread::class, 'thread_id', 'id');
+    }
 }
