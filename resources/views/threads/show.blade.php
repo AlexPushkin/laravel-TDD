@@ -16,14 +16,16 @@
                                 {{ $thread->title }}
                             </span>
 
-                            <form action="{{ $thread->path() }}" method="POST">
-                                {{ csrf_field() }}
-                                {{ method_field('DELETE') }}
+                            @can('update', $thread)
+                                <form action="{{ $thread->path() }}" method="POST">
+                                    {{ csrf_field() }}
+                                    {{ method_field('DELETE') }}
 
-                                <button class="btn btn-link">
-                                    Delete thread
-                                </button>
-                            </form>
+                                    <button class="btn btn-link">
+                                        Delete thread
+                                    </button>
+                                </form>
+                            @endcan
                         </div>
                     </div>
 
