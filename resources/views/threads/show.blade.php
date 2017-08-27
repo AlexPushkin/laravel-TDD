@@ -9,12 +9,22 @@
 
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h4>
-                            <a href="{{ $thread->creator->pathToProfile() }}">{{ $thread->creator->name }}</a>
-                            posted:
-                            {{ $thread->title }}
-                            {{ $thread->created_at->diffForHumans() }}
-                        </h4>
+                        <div class="level">
+                            <span class="flex">
+                                <a href="{{ $thread->creator->pathToProfile() }}">{{ $thread->creator->name }}</a>
+                                posted:
+                                {{ $thread->title }}
+                            </span>
+
+                            <form action="{{ $thread->path() }}" method="POST">
+                                {{ csrf_field() }}
+                                {{ method_field('DELETE') }}
+
+                                <button class="btn btn-link">
+                                    Delete thread
+                                </button>
+                            </form>
+                        </div>
                     </div>
 
                     <div class="panel-body">
