@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Reply extends Model
 {
+    use RecordsActivity;
+
     protected $guarded = [];
 
     protected $with = ['owner', 'favorites'];

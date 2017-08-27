@@ -10,6 +10,10 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Thread extends Model
 {
+    protected static $recordEvents = ['created'];
+
+    use RecordsActivity;
+
     protected $guarded = [];
 
     protected $with = ['creator', 'channel'];
