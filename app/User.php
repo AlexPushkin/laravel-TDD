@@ -29,6 +29,16 @@ class User extends Authenticatable
 
     public function pathToProfile(): string
     {
-        return 'path';
+        return "/profiles/{$this->name}";
+    }
+
+    public function getRouteKeyName(): string
+    {
+        return 'name';
+    }
+
+    public function threads()
+    {
+        return $this->hasMany(Thread::class, 'user_id', 'id')->latest();
     }
 }
